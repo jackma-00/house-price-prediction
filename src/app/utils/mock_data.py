@@ -1,6 +1,7 @@
 def get_mock_data():
     return [example_1, example_2, example_3]
 
+
 example_1 = [
     169110.0,
     3.0,

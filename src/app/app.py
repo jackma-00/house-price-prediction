@@ -92,9 +92,13 @@ def predict_price(
     ]
 
     # Make predictions using the deployed model
-    predictions = deployment.predict(
-        {"instances": [transformed_data_python]},
-    )
+    try:
+        predictions = deployment.predict(
+            {"instances": [transformed_data_python]},
+        )
+    except Exception as e:
+        print(e)
+        raise gradio.Error("An error occurred during inference 💥!", duration=5)
 
     return predictions["predictions"][0]
 
