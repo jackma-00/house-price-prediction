@@ -154,6 +154,7 @@ demo = gr.Interface(
     ],
     title="Italian House Price Predictor",
     description="Enter house details.",
+    theme="soft",
 )
 
 
