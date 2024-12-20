@@ -7,6 +7,8 @@ import hopsworks
 import uuid
 import os
 
+from utils.mock_data import get_mock_data
+
 
 # Connect to Hopsworks Feature Store
 with open("src/app/data/hopsworks-api-key.txt", "r") as file:
@@ -125,33 +127,7 @@ demo = gr.Interface(
         "text",
     ],
     outputs=[gr.Number(label="price")],
-    examples=[
-        [
-            169110.0,
-            3.0,
-            2023.0,
-            26086.0,
-            181.0,
-            253,
-            45.6674,
-            12.244,
-            True,  # Changed to int
-            False,  # Changed to int
-            False,  # Changed to int
-            False,  # Changed to int
-            "autonomo, freddo",
-            "3",
-            "Treviso",
-            "Nuovo / In costruzione",
-            "A2",
-            "Autonomo",
-            "1 in box privato/box in garage",
-            "autonomo, a pavimento",
-            "oltre 500.000 €",
-            "F704-B11",
-            "4",
-        ],
-    ],
+    examples=get_mock_data(),
     title="Italian House Price Predictor",
     description="Enter house details.",
     theme="soft",
