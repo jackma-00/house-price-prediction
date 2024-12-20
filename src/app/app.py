@@ -125,33 +125,7 @@ demo = gr.Interface(
         "text",
     ],
     outputs=[gr.Number(label="price")],
-    examples=[
-        [
-            169110.0,
-            3.0,
-            2023.0,
-            26086.0,
-            181.0,
-            253,
-            45.6674,
-            12.244,
-            True,  # Changed to int
-            False,  # Changed to int
-            False,  # Changed to int
-            False,  # Changed to int
-            "autonomo, freddo",
-            "3",
-            "Treviso",
-            "Nuovo / In costruzione",
-            "A2",
-            "Autonomo",
-            "1 in box privato/box in garage",
-            "autonomo, a pavimento",
-            "oltre 500.000 €",
-            "F704-B11",
-            "4",
-        ],
-    ],
+    examples="src/app/data",
     title="Italian House Price Predictor",
     description="Enter house details.",
 )
