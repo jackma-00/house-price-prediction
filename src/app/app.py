@@ -11,8 +11,6 @@ from utils.mock_data import get_mock_data
 
 
 # Connect to Hopsworks Feature Store
-with open("src/app/data/hopsworks-api-key.txt", "r") as file:
-    os.environ["HOPSWORKS_API_KEY"] = file.read().rstrip()
 proj = hopsworks.login()
 
 # Get Feature View
