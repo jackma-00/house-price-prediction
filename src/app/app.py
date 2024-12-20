@@ -157,4 +157,4 @@ demo = gr.Interface(
 )
 
 
-demo.launch(debug=True)
+demo.launch()
