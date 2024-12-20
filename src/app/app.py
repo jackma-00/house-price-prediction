@@ -9,7 +9,7 @@ import os
 
 
 # Connect to Hopsworks Feature Store
-with open("./data/hopsworks-api-key.txt", "r") as file:
+with open("src/app/data/hopsworks-api-key.txt", "r") as file:
     os.environ["HOPSWORKS_API_KEY"] = file.read().rstrip()
 proj = hopsworks.login()
 
