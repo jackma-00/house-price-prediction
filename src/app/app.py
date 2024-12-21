@@ -1,7 +1,7 @@
 import gradio as gr
 import threading
 
-from app.utils.functions import (
+from utils.functions import (
     get_mock_data,
     connect_to_hopsworks,
     get_feature_view,
