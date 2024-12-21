@@ -26,7 +26,18 @@ def get_model_deployment(proj, deployment_name):
 def generate_numeric_uuid():
     """Generate a numeric UUID for unique identification."""
     raw_uuid = uuid.uuid4()
-    return int(str(raw_uuid.int)[:9])
+    return str(raw_uuid.int)[:9]
+
+
+def convert_data_types(inference_data):
+    """Convert data types of specific inference_data columns to match the expected types."""
+    inference_data["id"] = inference_data["id"].astype(int)
+    inference_data["agencyid"] = inference_data["agencyid"].astype(float)
+    inference_data["bedroomsnumber"] = inference_data["bedroomsnumber"].astype(float)
+    inference_data["buildingyear"] = inference_data["buildingyear"].astype(float)
+    inference_data["codcom"] = inference_data["codcom"].astype(float)
+    inference_data["gsm"] = inference_data["gsm"].astype(float)
+    return inference_data
 
 
 def save_prediction_to_feature_store(fs, inference_data, prediction):
@@ -36,6 +47,9 @@ def save_prediction_to_feature_store(fs, inference_data, prediction):
     inference_data["timestamp"] = datetime.today().date()
 
     inference_data = pd.DataFrame(inference_data, index=[0])
+
+    # Change data types
+    inference_data = convert_data_types(inference_data)
 
     # Reorder columns to match properties feature group schema
     column_order = [
