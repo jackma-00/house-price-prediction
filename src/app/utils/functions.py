@@ -11,19 +11,23 @@ def connect_to_hopsworks():
     fs = proj.get_feature_store()
     return proj, fs
 
+
 def get_feature_view(fs, name, version):
     """Retrieve a feature view from the Hopsworks Feature Store."""
     return fs.get_feature_view(name=name, version=version)
+
 
 def get_model_deployment(proj, deployment_name):
     """Retrieve the model deployment object."""
     ms = proj.get_model_serving()
     return ms.get_deployment(deployment_name)
 
+
 def generate_numeric_uuid():
     """Generate a numeric UUID for unique identification."""
     raw_uuid = uuid.uuid4()
     return int(str(raw_uuid.int)[:9])
+
 
 def save_prediction_to_feature_store(fs, inference_data, prediction):
     """Save prediction data to the Hopsworks Feature Store."""
@@ -35,11 +39,32 @@ def save_prediction_to_feature_store(fs, inference_data, prediction):
 
     # Reorder columns to match properties feature group schema
     column_order = [
-        "id", "timestamp", "agencyid", "bedroomsnumber", "buildingyear", "codcom",
-        "gsm", "surface", "latitude", "longitude", "isluxury", "isnew",
-        "on_the_market", "zeroenergybuilding", "airconditioning", "bathrooms",
-        "city", "condition", "energyclass", "ga4heating", "garage",
-        "heatingtype", "pricerange", "rooms", "id_zona_omi", "predicted_price"
+        "id",
+        "timestamp",
+        "agencyid",
+        "bedroomsnumber",
+        "buildingyear",
+        "codcom",
+        "gsm",
+        "surface",
+        "latitude",
+        "longitude",
+        "isluxury",
+        "isnew",
+        "on_the_market",
+        "zeroenergybuilding",
+        "airconditioning",
+        "bathrooms",
+        "city",
+        "condition",
+        "energyclass",
+        "ga4heating",
+        "garage",
+        "heatingtype",
+        "pricerange",
+        "rooms",
+        "id_zona_omi",
+        "predicted_price",
     ]
     inference_data = inference_data[column_order]
 
@@ -53,9 +78,14 @@ def save_prediction_to_feature_store(fs, inference_data, prediction):
 
     property_preds.insert(inference_data)
 
+
 def prepare_inference_data(**kwargs):
     """Prepare the inference data dictionary."""
-    return {key: int(value) if isinstance(value, bool) else value for key, value in kwargs.items()}
+    return {
+        key: int(value) if isinstance(value, bool) else value
+        for key, value in kwargs.items()
+    }
+
 
 def predict_house_price(deployment, feature_view, inference_data):
     """Make predictions using the deployed model."""
@@ -65,10 +95,13 @@ def predict_house_price(deployment, feature_view, inference_data):
         return_type="list",
     )
 
-    transformed_data = [int(x) if isinstance(x, np.int64) else x for x in transformed_data]
+    transformed_data = [
+        int(x) if isinstance(x, np.int64) else x for x in transformed_data
+    ]
 
     predictions = deployment.predict({"instances": [transformed_data]})
     return predictions["predictions"][0]
+
 
 def get_mock_data():
     return [example_1, example_2, example_3]
