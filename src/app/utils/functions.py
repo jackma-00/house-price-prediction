@@ -17,6 +17,12 @@ def get_feature_view(fs, name, version):
     return fs.get_feature_view(name=name, version=version)
 
 
+def get_model(proj, model_name, version):
+    """Retrieve the model object."""
+    mr = proj.get_model_registry()
+    return mr.get_model(model_name, version)
+
+
 def get_model_deployment(proj, deployment_name):
     """Retrieve the model deployment object."""
     ms = proj.get_model_serving()
@@ -131,10 +137,10 @@ example_1 = [
     253,
     45.6674,
     12.244,
-    True,  # Changed to int
-    False,  # Changed to int
-    False,  # Changed to int
-    False,  # Changed to int
+    True,
+    False,
+    False,
+    False,
     "autonomo, freddo",
     "3",
     "Treviso",
