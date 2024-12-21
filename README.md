@@ -16,19 +16,23 @@ short_description: Italian House Price Predictions Demo App
 
 ### Feature backfill 
 
-* [Notebook](./notebooks/1_house_price_feature_backfill.ipynb)
+* [Notebook](./src/notebooks/1_house_price_feature_backfill.ipynb)
 * properties feature group.
 * omi feature group.
 
 ### Model training 
 
-* [Notebook](./notebooks/3_house_price_training_pipeline.ipynb)
+* [Notebook](./src/notebooks/3_house_price_training_pipeline.ipynb)
 * feature view combining features from both feature groups.
 * XGBRegressor regressor trained with randomized search.
 ![alt text](./docs/image.png)
 
 ### Online inference
 
-* [Notebook](./notebooks/4_house_price_online_inference.ipynb)
+* [Notebook](./src/notebooks/4_house_price_online_inference.ipynb)
 * [App](./src/app/app.py)
 * [UI](https://huggingface.co/spaces/jackma-00/house-price-app)
+
+### Weekly scheduled pipelines for model update
+
+* [Pipelines](./src/pipelines/)
