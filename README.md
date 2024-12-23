@@ -126,15 +126,15 @@ To run this project, follow the steps below:
 ## 🖥️ Software Used
 [**Visual Studio Code**](https://code.visualstudio.com/) - IDE
 
-[**Google Colab**](https://colab.research.google.com/) - running environment
+[**Google Colab**](https://colab.research.google.com/) - Experiments environment
 
-[**HuggingFace**](https://huggingface.co/) - GUI hosting
+[**Hopsworks**](https://www.hopsworks.ai/) - MLOps platform
 
 [**Gradio**](https://www.gradio.app/) - GUI
 
-[**GitHub Actions**](https://github.com/features/actions) - run weekly pipelines
+[**HuggingFace**](https://huggingface.co/) - GUI hosting
 
-[**Hopsworks**](https://www.hopsworks.ai/) - MLOps platform
+[**GitHub Actions**](https://github.com/features/actions) - Run weekly pipelines
 
 [**Google Drive**](https://workspace.google.com/) - Historical data storage
 
