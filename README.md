@@ -38,7 +38,7 @@ In **this repository** you can find:
 The project was developed using **Jupyter Notebooks** on **Google Colab**, while the pipelines were implemented in **Python** and tested both locally and on **Hugging Face Spaces**. The ML system is powered by [**Hopsworks**](https://www.hopsworks.ai/), which serves as the [*feature store*](https://docs.hopsworks.ai/latest/concepts/fs/), [*feature view*](https://docs.hopsworks.ai/latest/concepts/fs/feature_view/fv_overview/), [*model registry*](https://docs.hopsworks.ai/latest/concepts/mlops/registry/), and [*model deployment*](https://docs.hopsworks.ai/latest/concepts/mlops/serving/) platform. These functionalities are crucial to the project, enabling it to be classified within an **MLOps** context.
 
 ## 🏗️ Architecture
-<img alt="Machine Learning Pipeline Schema" src="/docs/MLPipeline.png">
+<img alt="Machine Learning Pipeline Schema" src="./docs/architecture.drawio.png">
 
 ## 📝 Notebooks Description
 ### 📊 Feature Backfill Notebook
@@ -49,7 +49,9 @@ The project was developed using **Jupyter Notebooks** on **Google Colab**, while
 The selected model for predicting house prices is an [**XGBoost**](https://xgboost.readthedocs.io/en/stable/index.html) regressor, trained using a [**Randomized search**](https://scikit-learn.org/1.5/modules/generated/sklearn.model_selection.RandomizedSearchCV.html) on hyper parameters.
 
 ### ⚙️ Online Inference Notebook
-[Here](./src/notebooks/4_house_price_online_inference.ipynb) is where the model inference was tested. The model was first deployed and tested with an inference request. Lastly, the model was interactively tested by building a user interface with [**Gradio**](https://www.gradio.app/).
+[Here](./src/notebooks/4_house_price_online_inference.ipynb) is where the model inference was tested. The model was first deployed and validated through an inference request. The input data must conform to the schema of the **properties feature group**, ensuring compatibility with the model's requirements.  
+User-provided data does not include **OMI data**, as these are automatically integrated into the feature vector through the **feature view** component. This approach enriches the user-input data with additional predictive features, enhancing the model's accuracy and effectiveness.  
+Lastly, the model was interactively tested by developing a user-friendly interface using [**Gradio**](https://www.gradio.app/), enabling intuitive interaction and real-time predictions.
 
 ### 📅 Weekly Feature Notebook
 [This](./src/notebooks/2_house_price_weekly_feature_pipeline.ipynb) is where the weekly data fetch is tested, along with the subsequent model retraining and deployment update.
@@ -58,7 +60,7 @@ The selected model for predicting house prices is an [**XGBoost**](https://xgboo
 The pipelines are run on a weekly schedule through GitHub Actions. Upon the success of one pipeline, the next one is triggered automatically.
 
 ### 🏗️ Feature Pipeline
-*ToDo*
+[This](./src/pipelines/01_feature_pipeline.py) pipeline runs weekly and fetches data from Houseplus's API to obtain the latest scraped data. The data is then preprocessed and fed into the **properties feature group**, preparing it for the next machine learning modeling phase.
 
 ### 🔄 Retraining Pipeline
 [This](./src/pipelines/02_retraining_pipeline.py) pipeline runs weekly upon the successful completion of the previous *Feature pipeline*. It first retrieves the feature view to access the **latest data**, prepares it for training, and **tunes** the XGBoost regressor to capture the latest trends in the Italian real estate market. The model is then evaluated and saved to the model registry, **replacing** the previous version.
@@ -91,6 +93,12 @@ The high **R-squared** value indicates good predictive power, especially for a r
 
 ### 🔮 Future Improvements
 - Apart from hyperparameter optimization, very little feature engineering was applied. To improve the **MSE**, proper scaling of the data could be implemented.
+-  Model updates are performed weekly using the entire historical dataset combined with newly scraped data. This approach aims to capture the latest trends in the Italian housing market.  
+However, a more thorough update process could be considered to enhance the effectiveness of the ML system. This could include:  
+   - **Monitoring the statistical properties of new data** to ensure consistency and detect anomalies.  
+   - **Tracking prediction performance** on unseen data to identify potential drift.  
+   - **Incorporating advanced evaluation metrics** for a more robust assessment of the model's accuracy over time.
+
 
 ## 🔧 Project Setup Guide
 
