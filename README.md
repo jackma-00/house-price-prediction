@@ -1,6 +1,6 @@
 ---
 title: House Price App
-emoji: 🔥
+emoji: 🏠
 colorFrom: pink
 colorTo: yellow
 sdk: gradio
