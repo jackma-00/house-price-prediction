@@ -57,7 +57,7 @@ Lastly, the model was interactively tested by developing a user-friendly interfa
 [This](./src/notebooks/2_house_price_weekly_feature_pipeline.ipynb) is where the weekly data fetch is tested, along with the subsequent model retraining and deployment update.
 
 ## 🔄 Pipelines Description
-The pipelines are run on a weekly schedule through GitHub Actions. Upon the success of one pipeline, the next one is triggered automatically.
+The pipelines are executed weekly using GitHub Actions, as defined in this [workflow configuration file](.github/workflows/pipeline.yml). Each pipeline runs sequentially, with the successful completion of one automatically triggering the next in the series.
 
 ### 🏗️ Feature Pipeline
 [This](./src/pipelines/01_feature_pipeline.py) pipeline runs weekly and fetches data from Houseplus's API to obtain the latest scraped data. The data is then preprocessed and fed into the **properties feature group**, preparing it for the next machine learning modeling phase.
