@@ -1,9 +1,63 @@
+import os
+import psycopg2
+from psycopg2.extras import RealDictCursor
 import pandas as pd
 import hopsworks
 import warnings
+from datetime import datetime, timedelta
 
 # Suppress warnings
 warnings.filterwarnings("ignore")
+
+
+def fetch_sales_data(query_date):
+    """
+    Fetch data from the sale table in the scraping schema.
+
+    Args:
+        query_date (str): The date to filter the results by scaping_date.
+
+    Returns:
+        pd.DataFrame: DataFrame containing the fetched data.
+    """
+    # Load database credentials from environment variables
+    DB_NAME = os.getenv("DB_NAME")
+    DB_USER = os.getenv("DB_USER")
+    DB_PASS = os.getenv("DB_PASS")
+    DB_HOST = os.getenv("DB_HOST")
+    DB_PORT = os.getenv("DB_PORT")
+
+    connection = None
+    try:
+        # Establish database connection
+        connection = psycopg2.connect(
+            database=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT
+        )
+        print("Database connected successfully")
+
+        # Create a cursor
+        cursor = connection.cursor(cursor_factory=RealDictCursor)
+
+        # Define and execute the query
+        query = """
+        SELECT *
+        FROM scraping.sale
+        WHERE scaping_date > %s
+        """
+        cursor.execute(query, (query_date,))
+
+        # Fetch and return results as a DataFrame
+        results = cursor.fetchall()
+        return pd.DataFrame(results)
+
+    except psycopg2.Error as e:
+        print(f"Database error: {e}")
+        return pd.DataFrame()
+
+    finally:
+        if connection:
+            connection.close()
+            print("Database connection closed")
 
 
 def init_hopsworks():
@@ -12,20 +66,9 @@ def init_hopsworks():
     return proj.get_feature_store()
 
 
-def fetch_new_data(filepath="data/new_data.csv"):
-    """Fetch new data from a specified source.
-
-    Args:
-        filepath (str): Path to the CSV file containing new data.
-
-    Returns:
-        pd.DataFrame: DataFrame containing the new data.
-    """
-    return pd.read_csv(filepath)
-
-
 def preprocess_properties_data(properties_df):
-    """Preprocess the properties DataFrame.
+    """
+    Preprocess the properties DataFrame.
 
     Args:
         properties_df (pd.DataFrame): Raw properties data.
@@ -82,7 +125,8 @@ def preprocess_properties_data(properties_df):
 
 
 def save_to_feature_store(fs, properties_df):
-    """Save the properties DataFrame to the feature store.
+    """
+    Save the properties DataFrame to the feature store.
 
     Args:
         fs: Feature store object.
@@ -106,8 +150,15 @@ def main():
     # Initialize feature store
     fs = init_hopsworks()
 
-    # Fetch and preprocess new data
-    raw_data = fetch_new_data()
+    # Fetch data from PostgreSQL
+    query_date = (datetime.now().date() - timedelta(days=7)).strftime("%Y-%m-%d")
+    raw_data = fetch_sales_data(query_date)
+
+    if raw_data.empty:
+        print("No data fetched from the database.")
+        return
+
+    # Preprocess fetched data
     properties_data = preprocess_properties_data(raw_data)
 
     # Save processed data to the feature store
