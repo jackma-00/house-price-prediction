@@ -8,6 +8,13 @@ on:
 jobs:
   feature_pipeline:
     runs-on: ubuntu-latest
+    env:
+      HOPSWORKS_API_KEY: ${{ secrets.HOPSWORKS_API_KEY }}
+      DB_PASS: ${{ secrets.DB_PASS }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_HOST: ${{ vars.DB_HOST }}
+      DB_PORT: ${{ vars.DB_PORT }}
+      DB_NAME: ${{ vars.DB_NAME }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -31,6 +38,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: feature_pipeline
     if: success()  # Only runs if the previous job was successful
+    env:
+      HOPSWORKS_API_KEY: ${{ secrets.HOPSWORKS_API_KEY }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -54,6 +63,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: retraining_pipeline
     if: success()  # Only runs if the previous job was successful
+    env:
+      HOPSWORKS_API_KEY: ${{ secrets.HOPSWORKS_API_KEY }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
