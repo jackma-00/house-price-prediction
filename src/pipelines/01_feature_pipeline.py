@@ -31,11 +31,7 @@ def fetch_sales_data(query_date):
     try:
         # Establish database connection
         connection = psycopg2.connect(
-            database=DB_NAME,
-            user=DB_USER,
-            password=DB_PASS,
-            host=DB_HOST,
-            port=DB_PORT
+            database=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT
         )
         print("Database connected successfully")
 
