@@ -18,7 +18,7 @@ def fetch_sales_data(query_date):
         query_date (str): The date to filter the results by scaping_date.
 
     Returns:
-        pd.DataFrame: DataFrame containing the fetched data.
+        list: A list of rows from the table.
     """
     # Load database credentials from environment variables
     DB_NAME = os.getenv("DB_NAME")
@@ -31,7 +31,11 @@ def fetch_sales_data(query_date):
     try:
         # Establish database connection
         connection = psycopg2.connect(
-            database=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT
+            database=DB_NAME,
+            user=DB_USER,
+            password=DB_PASS,
+            host=DB_HOST,
+            port=DB_PORT
         )
         print("Database connected successfully")
 
@@ -40,19 +44,24 @@ def fetch_sales_data(query_date):
 
         # Define and execute the query
         query = """
-        SELECT *
-        FROM scraping.sale
-        WHERE scaping_date > %s
+        SELECT s.*, i.*
+        from scraping.sale s
+        INNER JOIN omi."Interpolated" i
+        ON ST_Contains(i.geometry , ST_SetSRID(ST_Point(s.longitude, s.latitude), 4326))
+        WHERE s.scraping_date > %s
+          AND i.condition_omi = 'scadente'
+          AND i.typology_omi = 'Ville e Villini'
         """
+
         cursor.execute(query, (query_date,))
 
-        # Fetch and return results as a DataFrame
+        # Fetch and return results
         results = cursor.fetchall()
         return pd.DataFrame(results)
 
     except psycopg2.Error as e:
         print(f"Database error: {e}")
-        return pd.DataFrame()
+        return []
 
     finally:
         if connection:
