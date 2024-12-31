@@ -86,8 +86,8 @@ The **results of our work can also be viewed** on the [GUI](https://huggingface.
 
 | Metric | Value |
 |--------|-------|
-| **R-squared** | 0.8277 |
-| **MSE** | 26,982,919,338.54 |
+| **R-squared** | 0.9077 |
+| **MSE** | 10,106,078,060.18 |
 
 The high **R-squared** value indicates good predictive power, especially for a real-world regression problem. This indicates the model fits the data well and is able to predict house prices with a significant level of accuracy. However, the **MSE** could benefit from further optimization. It’s important to note that the scale of the data differs significantly from feature to feature, which may impact this metric.
 
