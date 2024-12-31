@@ -60,7 +60,7 @@ Lastly, the model was interactively tested by developing a user-friendly interfa
 The pipelines are executed weekly using GitHub Actions, as defined in this [workflow configuration file](.github/workflows/pipeline.yml). Each pipeline runs sequentially, with the successful completion of one automatically triggering the next in the series.
 
 ### 🏗️ Feature Pipeline
-[This](./src/pipelines/01_feature_pipeline.py) pipeline runs weekly and fetches data from Houseplus's API to obtain the latest scraped data. The data is then preprocessed and fed into the **properties feature group**, preparing it for the next machine learning modeling phase.
+[This](./src/pipelines/01_feature_pipeline.py) pipeline runs weekly and fetches data from Houseplus's PostgreSQL database hosted on AWS to obtain the latest scraped data. The data is then preprocessed and fed into the **properties feature group**, preparing it for the next machine learning modeling phase.
 
 ### 🔄 Retraining Pipeline
 [This](./src/pipelines/02_retraining_pipeline.py) pipeline runs weekly upon the successful completion of the previous *Feature pipeline*. It first retrieves the feature view to access the **latest data**, prepares it for training, and **tunes** the XGBoost regressor to capture the latest trends in the Italian real estate market. The model is then evaluated and saved to the model registry, **replacing** the previous version.
