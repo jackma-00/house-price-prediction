@@ -85,11 +85,12 @@ def preprocess_properties_data(properties_df):
     Returns:
         pd.DataFrame: Preprocessed properties DataFrame.
     """
-    # Drop missing values
-    properties_df.dropna(inplace=True)
 
     # Convert column names to lowercase
     properties_df.columns = properties_df.columns.str.lower()
+
+    # Rename column 'comuneid' to 'codcom'
+    properties_df.rename(columns={"comuneid": "codcom"}, inplace=True)
 
     # Select relevant columns
     selected_columns = [
@@ -122,9 +123,15 @@ def preprocess_properties_data(properties_df):
     ]
     properties_df = properties_df[selected_columns]
 
+    # Drop missing values
+    properties_df.dropna(inplace=True)
+
     # Convert boolean features to integers
     boolean_columns = ["isluxury", "isnew", "on_the_market", "zeroenergybuilding"]
     properties_df[boolean_columns] = properties_df[boolean_columns].astype(int)
+
+    # Convert codcom from bigint to double
+    properties_df["codcom"] = properties_df["codcom"].astype(float)
 
     # Parse and sort by scraping_date
     properties_df["scraping_date"] = pd.to_datetime(properties_df["scraping_date"])
