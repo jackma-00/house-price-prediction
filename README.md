@@ -138,4 +138,4 @@ To run this project, follow the steps below:
 
 [**Google Drive**](https://workspace.google.com/) - Historical data storage
 
-[**Houseplus API**]() - Weekly data retrieval
+[**Houseplus's PostgreSQL DB**]() - Weekly data retrieval
