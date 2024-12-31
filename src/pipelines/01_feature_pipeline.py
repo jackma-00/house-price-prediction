@@ -164,7 +164,6 @@ def main():
 
     # Fetch data from PostgreSQL
     query_date = (datetime.now().date() - timedelta(days=7)).strftime("%Y-%m-%d")
-    query_date = "2024-12-16"  # For testing purposes
     raw_data = fetch_sales_data(query_date)
 
     if raw_data.empty:
