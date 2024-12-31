@@ -2,7 +2,7 @@ name: Data Pipeline Workflow
 
 on:
   schedule:
-    - cron: '0 0 * * 0'  # Triggers every Sunday at midnight
+    - cron: '0 0 * * 3'  # Triggers every Wednesday at midnight
   workflow_dispatch:  # Allows manual triggering of the workflow
 
 jobs:
