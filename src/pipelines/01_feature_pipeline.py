@@ -57,7 +57,7 @@ def fetch_sales_data(query_date):
 
     except psycopg2.Error as e:
         print(f"Database error: {e}")
-        return []
+        return pd.DataFrame()
 
     finally:
         if connection:
