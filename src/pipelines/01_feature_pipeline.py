@@ -167,8 +167,7 @@ def main():
     raw_data = fetch_sales_data(query_date)
 
     if raw_data.empty:
-        print("No data fetched from the database.")
-        return
+        raise ValueError("No data fetched from the database.")
 
     # Preprocess fetched data
     properties_data = preprocess_properties_data(raw_data)
